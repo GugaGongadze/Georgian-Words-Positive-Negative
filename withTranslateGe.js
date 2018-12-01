@@ -33,3 +33,25 @@ async function translateAndAppend(engWord, sentiment) {
 
 positiveWords.forEach(word => translateAndAppend(word, 'pos'))
 negativeWords.forEach(word => translateAndAppend(word, 'neg'))
+
+const uniq = a => [...new Set(a)]
+
+const positiveWordsGEO = fs.readFileSync('პოზიტიური-სიტყვები-translateGE.txt', 'utf8').split(/\s+/g).filter(word => word.length > 0)
+const negativeWordsGEO = fs.readFileSync('ნეგატიური-სიტყვები-translateGE.txt', 'utf8').split(/\s+/g).filter(word => word.length > 0)
+
+const uniqueAndSortedPositiveWordsGEO = uniq(positiveWordsGEO).sort()
+const uniqueAndSortedNegativeWordsGEO = uniq(negativeWordsGEO).sort()
+
+uniqueAndSortedPositiveWordsGEO.forEach(word => fs.appendFileSync(
+  'პოზიტიური.txt',
+  `${word}\n`,
+  'UTF-8',
+  { 'flags': 'a' }
+))
+
+uniqueAndSortedNegativeWordsGEO.forEach(word => fs.appendFileSync(
+  'ნეგატიური.txt',
+  `${word}\n`,
+  'UTF-8',
+  { 'flags': 'a' }
+))
